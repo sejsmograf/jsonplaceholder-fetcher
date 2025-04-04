@@ -5,25 +5,23 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
+import java.util.logging.Logger;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rekrutacja.tomasz.config.AppConfig;
-import com.rekrutacja.tomasz.model.Post;
+import com.rekrutacja.tomasz.exception.ApiException;
 
 public class JsonplaceholderApiClient {
 
     private final HttpClient client;
-    private final ObjectMapper mapper;
+    private static final Logger logger = Logger.getLogger(JsonplaceholderApiClient.class.getName());
 
     public JsonplaceholderApiClient() {
         this.client = HttpClient.newHttpClient();
-        this.mapper = new ObjectMapper();
     }
 
-    public List<Post> fetchAllPosts() {
+    public String fetchAllPostsRaw() {
         String postsEndpoint = AppConfig.JSONPLACEHOLDER_API_URL + "/posts";
+        logger.info(String.format("Fetching posts from %s", postsEndpoint));
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(postsEndpoint))
@@ -33,13 +31,16 @@ public class JsonplaceholderApiClient {
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() != 200) {
+                throw new ApiException(String.format("%s API failed with status code: %d",
+                        AppConfig.JSONPLACEHOLDER_API_URL, response.statusCode()));
+            }
+
             String body = response.body();
-            List<Post> posts = mapper.readValue(body, new TypeReference<List<Post>>() {
-            });
-            return posts;
+            return body;
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return List.of();
+            throw new ApiException(String.format("HttpClient failed to send request: %s", request.toString(), e));
         }
     }
 }

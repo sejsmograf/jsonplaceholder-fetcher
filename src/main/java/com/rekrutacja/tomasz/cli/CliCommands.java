@@ -11,12 +11,12 @@ import picocli.CommandLine.Option;
 @Command(mixinStandardHelpOptions = true)
 public class CliCommands implements Callable<Integer> {
 
-    @Command(name = "download")
+    @Command(name = "download", mixinStandardHelpOptions = true)
     public Integer download(
             @Option(names = { "-d",
                     "--directory" }, description = "Specify output directory for saved posts") Path directory) {
         JsonplaceholderApiClient client = new JsonplaceholderApiClient();
-        PostService service = new JsonplaceholderPostService(client);
+        PostService service = new JsonplaceholderPostsService(client);
         var posts = service.getPosts();
         return 0;
     }
