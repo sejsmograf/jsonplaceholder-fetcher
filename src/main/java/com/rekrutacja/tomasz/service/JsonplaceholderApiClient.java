@@ -16,7 +16,9 @@ public class JsonplaceholderApiClient {
     private static final Logger logger = Logger.getLogger(JsonplaceholderApiClient.class.getName());
 
     public JsonplaceholderApiClient() {
-        this.client = HttpClient.newHttpClient();
+        this.client = HttpClient.newBuilder()
+                .connectTimeout(AppConfig.HTTP_CLIENT_TIMEOUT)
+                .build();
     }
 
     public String fetchAllPostsRaw() {
@@ -40,7 +42,10 @@ public class JsonplaceholderApiClient {
             String body = response.body();
             return body;
         } catch (IOException | InterruptedException e) {
-            throw new ApiException(String.format("HttpClient failed to send request: %s", request.toString(), e));
+            throw new ApiException(
+                    String.format("HttpClient failed to send request: %s, cause: %s", request.toString(),
+                            e.getMessage()),
+                    e);
         }
     }
 }
