@@ -11,18 +11,19 @@ import com.tomasz.rekrutacja.json_fetcher.service.StorageService;
 
 import lombok.AllArgsConstructor;
 
-@Command
+@Command(group = "Posts")
 @AllArgsConstructor
-public class CliCommands {
+public class PostsCommands {
 	private final PostsDownloadService postDownloadService;
 	private final StorageService storageService;
 
-	@Command(command = "download-posts", description = "Download and save posts")
+	@Command(command = "posts download", description = "Download and save posts")
 	public String downloadPosts(
 			@Option(required = false, shortNames = 'd', longNames = "directory", description = "Specify output directory", defaultValue = ".") String directory) {
 		Path dirPath = Path.of(directory);
 		if (!storageService.ensureDirExists(dirPath)) {
-			throw new InvalidParameterException("Directory " + directory.toString() + " doesn't exist. Operation failed");
+			throw new InvalidParameterException(
+					"Directory " + directory.toString() + " doesn't exist. Operation failed");
 		}
 
 		postDownloadService.downloadAndSavePosts(dirPath);
