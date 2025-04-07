@@ -22,7 +22,7 @@ public class CliCommands {
 			@Option(required = false, shortNames = 'd', longNames = "directory", description = "Specify output directory", defaultValue = ".") String directory) {
 		Path dirPath = Path.of(directory);
 		if (!storageService.ensureDirExists(dirPath)) {
-			throw new InvalidParameterException("Directory " + directory.toString() + "doesn't exist");
+			throw new InvalidParameterException("Directory " + directory.toString() + " doesn't exist. Operation failed");
 		}
 
 		postDownloadService.downloadAndSavePosts(dirPath);
