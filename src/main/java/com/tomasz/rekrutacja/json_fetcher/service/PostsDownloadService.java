@@ -13,12 +13,12 @@ import com.tomasz.rekrutacja.json_fetcher.model.Post;
 @Service
 public class PostsDownloadService {
 	private final PostsService postsService;
-	private final FileStorageService fileStorageService;
+	private final StorageService storageService;
 	private final ObjectMapper mapper;
 
-	public PostsDownloadService(PostsService postsService, FileStorageService fileStorageService) {
+	public PostsDownloadService(PostsService postsService, StorageService storageService) {
 		this.postsService = postsService;
-		this.fileStorageService = fileStorageService;
+		this.storageService = storageService;
 		mapper = new ObjectMapper();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 	}
@@ -29,7 +29,7 @@ public class PostsDownloadService {
 		for (Post post : posts) {
 			Path filePath = directory.resolve(post.getId().toString() + ".json");
 			String prettified = prettifyPost(post);
-			fileStorageService.saveContentToFile(prettified, filePath);
+			storageService.saveContentToFile(prettified, filePath);
 		}
 	}
 
