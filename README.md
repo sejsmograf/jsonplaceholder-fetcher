@@ -53,6 +53,6 @@ java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar download-posts
 ```
 
 ```
-java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar download-posts /home/tomek/posty
+java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar download-posts --directory /home/tomek/posty
 ```
 
