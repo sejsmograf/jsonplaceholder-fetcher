@@ -26,8 +26,8 @@ java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar <komenda>
 
 Aplikacja na razie udostępnia jedną komendę
 ```
-download-posts
-download-posts --help
+posts download
+posts download --help
 ```
 
 Pobiera dane z API i zapisuje je do plików json w określonym katalogu. 
@@ -40,19 +40,23 @@ Opcje:
 
 ### Przykłady
 
-```
+```bash
+# Print top-level help
 java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar help
 ```
 
-```
-java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar download-posts --help
-```
-
-```
-java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar download-posts 
+```bash
+# Print help for 'posts download'
+java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar posts download --help
 ```
 
+```bash
+# Download to current directory
+java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar posts download
 ```
-java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar download-posts --directory /home/tomek/posty
+
+```bash
+# Download into specified directory
+java -jar target/json-fetcher-0.0.1-SNAPSHOT.jar posts download --directory /home/tomek/posty
 ```
 
