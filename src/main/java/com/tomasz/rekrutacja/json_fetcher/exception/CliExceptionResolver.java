@@ -7,8 +7,6 @@ public class CliExceptionResolver implements CommandExceptionResolver {
 
 	@Override
 	public CommandHandlingResult resolve(Exception ex) {
-		System.err.println(ex.getMessage());
-		System.exit(1);
-		return null;
+		return CommandHandlingResult.of(ex.getMessage() + "\n", 1);
 	}
 }

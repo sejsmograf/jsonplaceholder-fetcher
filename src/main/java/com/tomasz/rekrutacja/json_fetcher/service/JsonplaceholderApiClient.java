@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tomasz.rekrutacja.json_fetcher.config.JsonplaceholderApiProperties;
 import com.tomasz.rekrutacja.json_fetcher.model.Post;
 
@@ -17,7 +16,7 @@ import com.tomasz.rekrutacja.json_fetcher.model.Post;
 public class JsonplaceholderApiClient {
 	private final RestClient client;
 
-	public JsonplaceholderApiClient(JsonplaceholderApiProperties properties, ObjectMapper mapper) {
+	public JsonplaceholderApiClient(JsonplaceholderApiProperties properties) {
 		client = RestClient.builder()
 				.baseUrl(properties.getBaseUrl())
 				.defaultStatusHandler(HttpStatusCode::is4xxClientError,
@@ -30,7 +29,7 @@ public class JsonplaceholderApiClient {
 
 	public List<Post> fetchAllPosts() {
 		return client.get()
-				.uri("/osts")
+				.uri("/posts")
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve()
 				.body(new ParameterizedTypeReference<List<Post>>() {
