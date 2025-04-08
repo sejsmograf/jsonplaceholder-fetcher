@@ -25,7 +25,7 @@ public class PostsCommands {
 
 	private String downloadPosts(String directory) {
 		Path dirPath = Path.of(directory);
-		if (!storageService.ensureDirExists(dirPath)) {
+		if (!storageService.checkDirExists(dirPath)) {
 			throw new InvalidParameterException(
 					"Directory " + directory.toString() + " doesn't exist. Operation failed");
 		}

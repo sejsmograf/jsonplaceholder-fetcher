@@ -21,7 +21,7 @@ public class FileStorageService implements StorageService {
 		}
 	}
 
-	public boolean ensureDirExists(Path dir) {
+	public boolean checkDirExists(Path dir) {
 		return Files.isDirectory(dir);
 	}
 }
